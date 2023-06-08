@@ -94,7 +94,8 @@ exports.forgotPassword = catchAsyncErrors(async(req,res,next)=>{
 
     await user.save({validateBeforeSave:false})
 
-   const restPasswordUrl = `${req.protocol}://${req.get("host")}/password/reset/${restToken}`
+const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+const restPasswordUrl = `${protocol}://${req.get("host")}/password/reset/${restToken}`;
    //const restPasswordUrl = `${process.env.FRONTEND_URL}/password/reset/${restToken}`
 
     const message = `Click on the Link to change your Password :- \n\n ${restPasswordUrl} \n\n If you have not requested this email then please ignore it.`
